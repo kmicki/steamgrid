@@ -7,12 +7,34 @@ again when you get more games or want to update the category overlays.
 
 # Download #
 
-[**steamgrid-windows.zip (4.4 MB)**](https://github.com/boppreh/steamgrid/releases/latest/download/steamgrid_windows.zip)
+This fork doesn't provide releases yet. Please go to [original repo](https://github.com/boppreh/steamgrid).
 
-[**steamgrid-linux.zip (4.5 MB)**](https://github.com/boppreh/steamgrid/releases/latest/download/steamgrid_linux.zip)
+# Build #
 
-[**steamgrid-mac.zip (4.6 MB)**](https://github.com/boppreh/steamgrid/releases/latest/download/steamgrid_mac.zip)
+Install go, git and gcc (mingw on Windows)
 
+## Linux
+
+    git clone https://github.com/kmicki/steamgrid.git
+    cd steamgrid
+    git checkout master
+    export GO111MODULE=off
+    go get -u -v ./...
+    go build -v
+    
+Resulting binary: `steamgrid`
+
+## Windows
+
+    git clone https://github.com/kmicki/steamgrid.git
+    cd steamgrid
+    git checkout master
+    set GO111MODULE=off
+    go get -u -v ./...
+    go build -v
+    
+Resulting binary: `steamgrid.exe`
+    
 # How to use #
 
 1. Download the [latest version](https://github.com/boppreh/steamgrid/releases/latest) and extract the zip wherever.
@@ -87,4 +109,4 @@ again when you get more games or want to update the category overlays.
 - **It didn't apply any overlays**: ensure the overlay file name matches your category name, including possible punctuation (differences in caps are ignored). For example, `favorites.png` is used for the `Favorites` category.
 - **I'm worried this is a virus**: I work with security, so no offense taken from a little paranoia. The complete source code is provided at this [Github repo](https://github.com/boppreh/steamgrid). If you are worried the binaries don't match the source, you can install Go on your machine and run the sources directly. All it does is save images inside `Steam/userdata/ID/config/grid`. It does connect to the internet, but only to fetch game names from you Steam profile and download images into the Steam's grid image folder. Nothing is installed or saved in the Windows registry, and aside from images downloaded, it should leave the computer exactly as it found.
 
-If you encounter any problems, please [open an issue](https://github.com/boppreh/steamgrid/issues/new). All critics and suggestions are welcome.
+If you encounter any problems, please [open an issue](https://github.com/kmicki/steamgrid/issues/new). All critics and suggestions are welcome.
