@@ -67,6 +67,8 @@ Resulting binary: `steamgrid.exe`
     * *(optional)* Append `--ignoreManual` to ignore manual customization when looking for artwork
     * *(optional)* Append `--skipCategory <category>` to skip processing of games assigned to a specific Steam category
     * *(optional)* Append `--steamgriddbonly` to search for artwork only in SteamGridDB
+    * *(optional)* Append `--webpasapng` to convert all WEBP animations to APNG - they are displayed faster but take more time and memory to convert
+    * *(optional)* Append `--coverwebpasapng` to convert covers and banners' WEBP animations to APNG - skip hero and logo as they are larger
     * *(tip)* Run with `--help` to see all available options again.
 6. Read the report and open Steam in grid view to check the results.
 
