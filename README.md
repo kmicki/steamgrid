@@ -19,7 +19,7 @@ Install go, git and gcc (mingw on Windows)
     cd steamgrid
     git checkout master
     export GO111MODULE=off
-    go get -u -v ./...
+    go get -d -u -v ./...
     go build -v
     
 Resulting binary: `steamgrid`
@@ -30,7 +30,7 @@ Resulting binary: `steamgrid`
     cd steamgrid
     git checkout master
     set GO111MODULE=off
-    go get -u -v ./...
+    go get -d -u -v ./...
     go build -v
     
 Resulting binary: `steamgrid.exe`
