@@ -72,6 +72,7 @@ Resulting binary: `steamgrid.exe`
     * *(optional)* Append `--namefilter "<text>"` to process only games with names that contain provided *text*
     * *(optional)* Append `--webpasapng` to convert all WEBP animations to APNG - they are displayed faster but take more time and memory to convert
     * *(optional)* Append `--coverwebpasapng` to convert covers and banners' WEBP animations to APNG - skip hero and logo as they are larger
+    * *(optional)* Append `--convertmaxmem <GB>` to limit memory usage for conversion from WEBP to APNG, if it would go over the limit, the conversion will be skipped.
     * *(tip)* Run with `--help` to see all available options again.
 6. Read the report and open Steam in grid view to check the results.
 
