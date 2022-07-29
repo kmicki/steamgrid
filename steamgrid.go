@@ -76,6 +76,7 @@ func startApplication() {
 	ignoreManual := flag.Bool("ignoremanual", false, "Ignore manual customization when looking for artwork")
 	skipCategory := flag.String("skipcategory", "", "Name of the category with games to skip during processing")
 	steamgriddbonly := flag.Bool("steamgriddbonly", false, "Search for artwork only in SteamGridDB")
+	nameFilter := flag.String("namefilter", "", "Process only games with name that contains this value")
 	flag.Parse()
 	if flag.NArg() == 1 {
 		steamDir = &flag.Args()[0]
@@ -204,6 +205,10 @@ func startApplication() {
 				name = game.Name
 			} else {
 				name = "unknown game with id " + game.ID
+			}
+
+			if len(*nameFilter) > 0 && !strings.Contains(name, *nameFilter) {
+				continue
 			}
 
 			fmt.Printf("Processing %v (%v/%v)\n", name, i, len(games))
