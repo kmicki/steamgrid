@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"runtime"
+	"strings"
 	"unicode"
 )
 
@@ -25,7 +26,13 @@ func getBackupPath(gridDir string, game *Game, artStyleExtensions []string) stri
 	hash := sha256.Sum256(game.OverlayImageBytes)
 	// [:] is required to convert a fixed length byte array to a byte slice.
 	hexHash := hex.EncodeToString(hash[:])
-	return filepath.Join(gridDir, "originals", game.ID+artStyleExtensions[0]+" "+hexHash+game.ImageExt)
+	var extension string
+	if strings.Contains(game.ImageExt, ".webp") {
+		extension = ".png"
+	} else {
+		extension = game.ImageExt
+	}
+	return filepath.Join(gridDir, "originals", game.ID+artStyleExtensions[0]+" "+hexHash+extension)
 }
 
 func removeExisting(gridDir string, gameID string, artStyleExtensions []string) error {

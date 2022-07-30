@@ -14,6 +14,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/kmicki/apng"
 	"github.com/kmicki/webpanimation"
 	"go.deanishe.net/fuzzy"
 )
@@ -460,33 +461,38 @@ func DownloadImage(gridDir string, game *Game, artStyle string, artStyleExtensio
 	response.Body.Close()
 
 	// catch false aspect ratios
-	var webpImage *webpanimation.WebpAnimationDecoded
-	defer func() {
-		if webpImage != nil {
-			webpanimation.ReleaseDecoder(webpImage)
-		}
-	}()
-	var dlImage image.Image
+	var imgSize image.Point
 	if strings.Contains(contentType, "webp") {
+		var webpImage *webpanimation.WebpAnimationDecoded
+		defer func() {
+			if webpImage != nil {
+				webpanimation.ReleaseDecoder(webpImage)
+			}
+		}()
 		webpImage, err = webpanimation.GetInfo(bytes.NewBuffer(imageBytes))
 		if err == nil {
-			webpFrame, ok := webpanimation.GetNextFrame(webpImage)
-			if ok {
-				dlImage = webpFrame.Image
-			} else {
-				err = errors.New("can't read the first frame of WEBP animation")
-			}
+			imgSize = image.Point{X: webpImage.Width, Y: webpImage.Height}
 		}
 	} else {
-		dlImage, _, err = image.Decode(bytes.NewBuffer(imageBytes))
+		var apngConfig image.Config
+		// try APNG
+		apngConfig, err = apng.DecodeConfig(bytes.NewBuffer(imageBytes))
+		if err == nil {
+			imgSize = image.Point{X: apngConfig.Width, Y: apngConfig.Height}
+		} else {
+			var imgConfig image.Config
+			imgConfig, _, err = image.DecodeConfig(bytes.NewBuffer(imageBytes))
+			if err == nil {
+				imgSize = image.Point{X: imgConfig.Width, Y: imgConfig.Height}
+			}
+		}
 	}
 	if err != nil {
 		return "", err
 	}
-	imageSize := dlImage.Bounds().Max
-	if artStyle == "Banner" && imageSize.X < imageSize.Y {
+	if artStyle == "Banner" && imgSize.X < imgSize.Y {
 		return "", nil
-	} else if artStyle == "Cover" && imageSize.X > imageSize.Y {
+	} else if artStyle == "Cover" && imgSize.X > imgSize.Y {
 		return "", nil
 	}
 
