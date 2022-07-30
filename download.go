@@ -104,12 +104,14 @@ func (results steamGridDBSearchResponse) Swap(i, j int) {
 	results.Data[i], results.Data[j] = results.Data[j], results.Data[i]
 }
 func (results steamGridDBSearchResponse) Less(i, j int) bool {
-	return results.Data[i].Name < results.Data[j].Name
+	return strings.ToLower(results.Data[i].Name) < strings.ToLower(results.Data[j].Name)
 }
 
 // Keywords implements Sortable.
 // Comparisons are based on the the full name of the contact.
-func (results steamGridDBSearchResponse) Keywords(i int) string { return results.Data[i].Name }
+func (results steamGridDBSearchResponse) Keywords(i int) string {
+	return strings.ToLower(results.Data[i].Name)
+}
 
 // Search SteamGridDB for cover image
 const steamGridDBBaseURL = "https://www.steamgriddb.com/api/v2"
@@ -201,7 +203,8 @@ func getSteamGridDBImage(game *Game, artStyleExtensions []string, steamGridDBApi
 
 			SteamGridDBGameID := -1
 			if jsonSearchResponse.Success && len(jsonSearchResponse.Data) >= 1 {
-				fuzzy.Sort(jsonSearchResponse, game.Name)
+				fuzzy.Sort(jsonSearchResponse, strings.ToLower(game.Name))
+				fmt.Println(jsonSearchResponse)
 				SteamGridDBGameID = jsonSearchResponse.Data[0].ID
 			}
 
