@@ -204,7 +204,6 @@ func getSteamGridDBImage(game *Game, artStyleExtensions []string, steamGridDBApi
 			SteamGridDBGameID := -1
 			if jsonSearchResponse.Success && len(jsonSearchResponse.Data) >= 1 {
 				fuzzy.Sort(jsonSearchResponse, strings.ToLower(game.Name))
-				fmt.Println(jsonSearchResponse)
 				SteamGridDBGameID = jsonSearchResponse.Data[0].ID
 			}
 
